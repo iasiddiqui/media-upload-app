@@ -40,7 +40,12 @@ const VideoPage = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'center' }}>
-              <video controls style={{ width: '100%', maxHeight: '300px', borderRadius: '8px' }}>
+              <video
+                controls
+                autoPlay
+                muted
+                style={{ width: '100%', maxHeight: '300px', borderRadius: '8px' }}
+              >
                 <source src={media.videoUrl} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
