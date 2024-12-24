@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Typography, Box, Button, Grid } from '@mui/material';
+import { Typography, Box, Button, Grid, Card, CardContent, CardMedia } from '@mui/material';
 
 const ListingPage = () => {
   const [mediaList, setMediaList] = useState([]);
@@ -20,36 +20,48 @@ const ListingPage = () => {
   }, []);
 
   return (
-    <Box sx={{ padding: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <Box
+      sx={{
+        padding: 3,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        maxWidth: '1200px',  // Fixes the max width of the Box
+        width: '100%',      // Ensures the Box is responsive up to the max width
+        margin: '0 auto',   // Centers the Box horizontally
+      }}
+    >
       <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center' }}>
         Media List
       </Typography>
       
       {/* Grid for media items in a row */}
-      <Grid container spacing={2} justifyContent="center">
+      <Grid container spacing={3} justifyContent="center">
         {mediaList.map((media) => (
           <Grid item key={media._id}>
-            <Button
-              variant="contained"
-              component={Link}
-              to={`/video/${media._id}`}
-              sx={{
-                textDecoration: 'none',
-                color: 'white',
-                padding: '10px 20px',
-                display: 'block',
-                minWidth: 200,
-                textAlign: 'center',
-                '&:hover': { backgroundColor: '#1565c0' },
-              }}
-            >
-              {media.title}
-            </Button>
+            <Card sx={{ maxWidth: 345 }}>
+              <Link to={`/video/${media._id}`} style={{ textDecoration: 'none' }}>
+                {/* Media Image */}
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={media.imageUrl} // Assuming media has an imageUrl field
+                  alt={media.title}
+                  sx={{ cursor: 'pointer' }}
+                />
+                {/* Media Title */}
+                <CardContent>
+                  <Typography variant="h6" component="div" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                    {media.title}
+                  </Typography>
+                </CardContent>
+              </Link>
+            </Card>
           </Grid>
         ))}
       </Grid>
 
-      {/* Display the Upload New Media button in a row next to the media items */}
+      {/* Upload New Media Button */}
       <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, marginTop: 3 }}>
         <Link to="/upload" style={{ textDecoration: 'none' }}>
           <Button
