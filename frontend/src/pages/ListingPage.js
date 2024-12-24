@@ -45,7 +45,7 @@ const ListingPage = () => {
                 <CardMedia
                   component="img"
                   height="200"
-                  image={media.imageUrl} // Assuming media has an imageUrl field
+                  image={media.imageUrl} 
                   alt={media.title}
                   sx={{ cursor: 'pointer' }}
                 />
