@@ -10,6 +10,8 @@ import {
   Alert,
 } from "@mui/material";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const UploadPage = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -48,7 +50,7 @@ const UploadPage = () => {
 
     setLoading(true); // Start loading
     try {
-      await axios.post("http://localhost:5000/api/media", formData, {
+      await axios.post(`${API_URL}/api/media`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setSnackbar({
@@ -191,11 +193,10 @@ const UploadPage = () => {
         open={snackbar.open}
         autoHideDuration={3000}
         onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }} // Center position
+        anchorOrigin={{ vertical: "top", horizontal: "right" }} // Top-right corner
       >
         <Alert
           onClose={handleSnackbarClose}
-          // severity="error"
           severity={snackbar.severity}
           sx={{ width: "100%" }}
         >

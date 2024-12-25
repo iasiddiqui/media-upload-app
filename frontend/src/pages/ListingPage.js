@@ -3,16 +3,21 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Typography, Box, Button, Grid, Card, CardContent, CardMedia } from '@mui/material';
 
+// Use environment variable for the API URL
+const API_URL = process.env.REACT_APP_API_URL;
+
 const ListingPage = () => {
   const [mediaList, setMediaList] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMedia = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/media');
+        const response = await axios.get(`${API_URL}/api/media`);
         setMediaList(response.data);
       } catch (error) {
-        console.error('Error fetching media', error);
+        console.error('Error fetching media:', error);
+        setError('Unable to fetch media. Please try again later.');
       }
     };
 
@@ -26,55 +31,67 @@ const ListingPage = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        maxWidth: '1200px',  // Fixes the max width of the Box
-        width: '100%',      // Ensures the Box is responsive up to the max width
-        margin: '0 auto',   // Centers the Box horizontally
+        maxWidth: '1200px', // Fixes the max width of the Box
+        width: '100%', // Ensures the Box is responsive up to the max width
+        margin: '0 auto', // Centers the Box horizontally
       }}
     >
       <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center' }}>
         Media List
       </Typography>
-      
-      {/* Grid for media items in a row */}
-      <Grid container spacing={3} justifyContent="center">
-        {mediaList.map((media) => (
-          <Grid item key={media._id}>
-            <Card sx={{ maxWidth: 345 }}>
-              <Link to={`/video/${media._id}`} style={{ textDecoration: 'none' }}>
-                {/* Media Image */}
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={media.imageUrl} 
-                  alt={media.title}
-                  sx={{ cursor: 'pointer' }}
-                />
-                {/* Media Title */}
-                <CardContent>
-                  <Typography variant="h6" component="div" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                    {media.title}
-                  </Typography>
-                </CardContent>
-              </Link>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
 
-      {/* Upload New Media Button */}
-      <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, marginTop: 3 }}>
-        <Link to="/upload" style={{ textDecoration: 'none' }}>
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: '#1976d2',
-              '&:hover': { backgroundColor: '#1565c0' },
-            }}
-          >
-            Upload New Media
-          </Button>
-        </Link>
-      </Box>
+      {error ? (
+        <Typography color="error" variant="body1" sx={{ textAlign: 'center', marginBottom: 3 }}>
+          {error}
+        </Typography>
+      ) : (
+        <>
+          {/* Grid for media items in a row */}
+          <Grid container spacing={3} justifyContent="center">
+            {mediaList.map((media) => (
+              <Grid item key={media._id}>
+                <Card sx={{ maxWidth: 345 }}>
+                  <Link to={`/video/${media._id}`} style={{ textDecoration: 'none' }}>
+                    {/* Media Image */}
+                    <CardMedia
+                      component="img"
+                      height="200"
+                      image={media.imageUrl}
+                      alt={media.title}
+                      sx={{ cursor: 'pointer' }}
+                    />
+                    {/* Media Title */}
+                    <CardContent>
+                      <Typography
+                        variant="h6"
+                        component="div"
+                        sx={{ fontWeight: 'bold', textAlign: 'center' }}
+                      >
+                        {media.title}
+                      </Typography>
+                    </CardContent>
+                  </Link>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Upload New Media Button */}
+          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, marginTop: 3 }}>
+            <Link to="/upload" style={{ textDecoration: 'none' }}>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: '#1976d2',
+                  '&:hover': { backgroundColor: '#1565c0' },
+                }}
+              >
+                Upload New Media
+              </Button>
+            </Link>
+          </Box>
+        </>
+      )}
     </Box>
   );
 };
