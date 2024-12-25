@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Typography, Box, Button, Grid, Card, CardContent, CardMedia } from '@mui/material';
 
-// Use environment variable for the API URL
+
 const API_URL = process.env.REACT_APP_API_URL;
 
 const ListingPage = () => {
