@@ -14,7 +14,9 @@ mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-  .then(() => console.log('MongoDB Connected'))
+  .then(() => {
+    console.log('MongoDB Connected');
+  })
   .catch((err) => {
     console.error('Database Connection Error:', err);
     process.exit(1); 
@@ -22,6 +24,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // CORS Configuration
 const allowedOrigin = process.env.FRONTEND_URL || '*'; 
+console.log('Allowed Origin:', allowedOrigin);
 
 app.use(cors({
   origin: allowedOrigin,
@@ -33,5 +36,13 @@ app.use(cors({
 app.use(express.json());
 app.use('/api/media', mediaRoutes);
 
+// Test Route for the root URL
+app.get('/', (req, res) => {
+  console.log('Root URL accessed');
+  res.send('Backend is running successfully!');
+});
+
 // Start the server
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
