@@ -21,12 +21,12 @@ mongoose.connect(process.env.MONGO_URI, {
   });
 
 // CORS Configuration
-const allowedOrigin = process.env.FRONTEND_URL || '*'; // Use the frontend URL or allow all by default
+const allowedOrigin = process.env.FRONTEND_URL || '*'; 
 
 app.use(cors({
   origin: allowedOrigin,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
-  credentials: true, // Allow credentials (e.g., cookies)
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  credentials: true, 
 }));
 
 // Middleware
