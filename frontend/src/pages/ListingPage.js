@@ -14,17 +14,12 @@ const ListingPage = () => {
     const fetchMedia = async () => {
       try {
         const response = await axios.get(`${API_URL}/api/media`);
-        console.log('API Response:', response.data); // Debugging
         setMediaList(response.data);
       } catch (error) {
-        console.error('Error fetching media:', error.response || error.message); // Debugging
+        console.error('Error fetching media:', error);
         setError('Unable to fetch media. Please try again later.');
       }
     };
-  
-    fetchMedia();
-  }, []);
-  
 
     fetchMedia();
   }, []);
