@@ -20,10 +20,18 @@ mongoose.connect(process.env.MONGO_URI, {
     process.exit(1); 
   });
 
+// CORS Configuration
+const allowedOrigin = process.env.FRONTEND_URL || '*'; // Use the frontend URL or allow all by default
+
+app.use(cors({
+  origin: allowedOrigin,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+  credentials: true, // Allow credentials (e.g., cookies)
+}));
 
 // Middleware
-app.use(cors());
 app.use(express.json());
 app.use('/api/media', mediaRoutes);
 
+// Start the server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
